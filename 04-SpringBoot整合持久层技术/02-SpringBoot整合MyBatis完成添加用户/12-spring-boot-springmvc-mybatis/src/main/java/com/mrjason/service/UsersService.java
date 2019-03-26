@@ -1,4 +1,8 @@
 package com.mrjason.service;
 
-public class UsersService {
+import com.mrjason.pojo.Users;
+
+public interface UsersService {
+    void addUser(Users users);
+
 }

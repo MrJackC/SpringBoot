@@ -1,4 +1,7 @@
 package com.mrjason.mapper;
 
-public class UsersMapper {
+import com.mrjason.pojo.Users;
+
+public interface UsersMapper {
+    void insertUser(Users users);
 }
