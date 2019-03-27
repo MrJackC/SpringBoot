@@ -26,7 +26,7 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-      <scope>provided</scope>
+
     </dependency>
 
     <!-- springBoot的启动器 -->
@@ -39,12 +39,33 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
     </dependency>
-  </dependencies>
+     <!--热部署依赖
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>springloaded</artifactId>
+      <version>1.2.6.RELEASE</version>
+    </dependency>
+    -->
+
+    <!--热部署依赖-->
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-devtools</artifactId>
+          <optional>true</optional>
+        </dependency>
+
+      </dependencies>
 
 
-
-
-
-
-
-</project>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+              <fork>true</fork>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </project>
