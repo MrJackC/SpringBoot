@@ -65,5 +65,29 @@ public class RedisTest {
         Users users = (Users)this.redisTemplate.opsForValue().get("users");
         System.out.println(users);
     }
+	
+	/**
+	 * 基于JSON格式存Users对象
+	 */
+	@Test
+	public void testSetUsersUseJSON(){
+		Users users = new Users();
+		users.setAge(20);
+		users.setName("李四丰");
+		users.setId(1);
+		this.redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Users.class));
+		this.redisTemplate.opsForValue().set("users_json", users);
+	}
+	
+	/**
+	 * 基于JSON格式取Users对象
+	 */
+	@Test
+	public void testGetUseJSON(){
+		this.redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Users.class));
+		Users users = (Users)this.redisTemplate.opsForValue().get("users_json");
+		System.out.println(users);
+	}
+
 
 }
