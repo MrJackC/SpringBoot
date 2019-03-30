@@ -1,15 +1,16 @@
 package com.mrjason.test;
 
 import com.mrjason.Application;
-import com.mrjason.dao.UserRepositoryByName;
-import com.mrjason.dao.UsersRepository;
-import com.mrjason.dao.UsersRepositoryCrudRepository;
-import com.mrjason.dao.UsersRepositoryQueryAnnotation;
+import com.mrjason.dao.*;
 import com.mrjason.pojo.Users;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,10 @@ public class UserRepositoryTest {
 
     @Autowired
     private UsersRepositoryCrudRepository usersRepositoryCrudRepository;
+
+
+    @Autowired
+    private UsersRepositoryPaingAndSorting usersRepositoryPaingAndSorting;
     @Test
     public void testSava(){
         Users users = new Users();
@@ -149,6 +154,53 @@ public class UserRepositoryTest {
     public  void CrudRepositorydeleteUsers(){
        this.usersRepositoryCrudRepository.deleteById(3);
 
+    }
+
+
+
+
+
+    /*
+   paging and sorting
+    */
+    @Test
+    public void PagingandSortingUsers(){
+        //定义排序规则  倒序
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC,"id");
+        Sort so = new Sort(order);
+        List<Users> users = (List<Users>) this.usersRepositoryPaingAndSorting.findAll(so);
+        for(Users users1 :users){
+            System.out.println(users1);
+        }
+
+
+    }
+
+    @Test
+    public void PagingUsers(){
+      //Pageable   封装了分页的参数   当前页  每页显示的条数
+        Pageable pageable = new PageRequest(0,2);
+
+        Page<Users> page = this.usersRepositoryPaingAndSorting.findAll(pageable);
+        System.out.println("当前总条数"+page.getTotalElements());
+        System.out.println("总页数"+page.getTotalPages());
+        List<Users> list = page.getContent();
+        for(Users users :list) {
+            System.out.println(users);
+        }
+    }
+
+    @Test
+    public void  PageAndSort(){
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC,"id"));
+        Pageable pageable =new PageRequest(0,2,sort);
+        Page<Users> page = this.usersRepositoryPaingAndSorting.findAll(pageable);
+        System.out.println("当前总条数"+page.getTotalElements());
+        System.out.println("总页数"+page.getTotalPages());
+        List<Users> list = page.getContent();
+        for(Users users :list) {
+            System.out.println(users);
+        }
     }
 }
 
