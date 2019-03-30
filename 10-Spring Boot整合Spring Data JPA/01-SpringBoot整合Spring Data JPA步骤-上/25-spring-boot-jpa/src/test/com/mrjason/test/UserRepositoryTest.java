@@ -202,6 +202,20 @@ public class UserRepositoryTest {
             System.out.println(users);
         }
     }
+
+/*
+JapRespository  接口测试
+ */
+    @Test
+    public void  testJapRespository(){
+        //定义排序规则  倒序
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC,"id");
+        Sort so = new Sort(order);
+        List<Users> users = this.usersRepository.findAll(so);
+        for(Users users1 :users){
+            System.out.println(users1);
+        }
+    }
 }
 
 
