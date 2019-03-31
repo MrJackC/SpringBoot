@@ -3,11 +3,16 @@ package com.mrjason.pojo;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -25,6 +30,12 @@ public class Roles {
 
     @OneToMany(mappedBy="roles")
     private Set<Users> users = new HashSet<>();
+
+    @ManyToMany(cascade=CascadeType.PERSIST,fetch=FetchType.EAGER)
+    //@JoinTable:映射中间表
+    //joinColumns:当前表中的主键所关联的中间表中的外键字段
+    @JoinTable(name="t_roles_menus",joinColumns=@JoinColumn(name="role_id"),inverseJoinColumns=@JoinColumn(name="menu_id"))
+    private Set<Menus> menus = new HashSet<>();
 
     public Integer getRoleid() {
         return roleid;
@@ -48,6 +59,14 @@ public class Roles {
 
     public void setUsers(Set<Users> users) {
         this.users = users;
+    }
+
+    public Set<Menus> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(Set<Menus> menus) {
+        this.menus = menus;
     }
 
 }
