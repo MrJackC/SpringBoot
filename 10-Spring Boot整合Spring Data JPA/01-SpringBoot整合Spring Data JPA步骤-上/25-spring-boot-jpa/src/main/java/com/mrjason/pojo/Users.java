@@ -1,6 +1,14 @@
 package com.mrjason.pojo;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="t_users")
@@ -20,10 +28,9 @@ public class Users {
     @Column(name="address")
     private String address;
 
-
-    @ManyToOne
-    //维护外键
-    @JoinColumn(name = "role_id")
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    //@JoinColumn:维护外键
+    @JoinColumn(name="roles_id")
     private Roles roles;
 
     public Integer getId() {
@@ -61,6 +68,14 @@ public class Users {
     @Override
     public String toString() {
         return "Users [id=" + id + ", name=" + name + ", age=" + age + ", address=" + address + "]";
+    }
+
+    public Roles getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Roles roles) {
+        this.roles = roles;
     }
 
 
